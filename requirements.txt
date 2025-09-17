@@ -1,3 +1,7 @@
+# ================================================================
+# NoIQTrader - Complete Requirements File
+# ================================================================
+
 # Core Data Science Libraries
 pandas>=1.5.0
 numpy>=1.21.0
@@ -8,28 +12,74 @@ plotly>=5.0.0
 # Data Collection
 yfinance>=0.2.0
 
-# Machine Learning (for future phases)
+# Machine Learning Core
 scikit-learn>=1.1.0
+joblib>=1.2.0
+
+# Deep Learning Frameworks
+# TensorFlow (for DQN agent)
+tensorflow>=2.10.0,<2.16.0
+keras>=2.10.0
+
+# PyTorch (alternative for DQN agent)
+torch>=1.12.0
+torchvision>=0.13.0
 
 # Reinforcement Learning
 gym>=0.21.0
-# Alternative to gym for compatibility
-gymnasium
+gymnasium>=0.29.0
 
-# Technical Analysis
-ta>=0.10.0
-
-# Jupyter Notebook
-jupyter>=1.0.0
-ipykernel>=6.0.0
-
-# Utilities
-python-dotenv>=0.19.0
-requests>=2.28.0
+# Technical Analysis (manual implementation in feature_engineer.py)
+# Note: ta library not used, features implemented manually
 
 # Web Interface
 streamlit>=1.28.0
 
-# Optional for advanced modeling (future phases)
-# torch>=1.12.0
+# Utilities
+python-dotenv>=0.19.0
+requests>=2.28.0
+argparse  # Built-in, but explicit for clarity
+
+# Development & Jupyter
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# File Handling & Serialization
+pickle5>=0.0.11; python_version < "3.8"
+
+# System & Logging
+# Standard library modules used: 
+# - logging, os, sys, datetime, json, warnings, typing, collections
+
+# ================================================================
+# Installation Notes:
+# ================================================================
+# 1. For CPU-only TensorFlow, use: tensorflow-cpu>=2.10.0,<2.16.0
+# 2. For GPU support, ensure CUDA compatibility
+# 3. Some dependencies may require system packages:
+#    - On Ubuntu: sudo apt-get install python3-dev
+# 4. Virtual environment recommended:
+#    - python -m venv venv
+#    - source venv/bin/activate  # Linux/Mac
+#    - pip install -r requirements.txt
+
+# ================================================================
+# Optional Dependencies (for future enhancements):
+# ================================================================
+# Advanced ML/DL
 # transformers>=4.20.0
+# xgboost>=1.6.0
+# lightgbm>=3.3.0
+
+# Data Visualization
+# bokeh>=2.4.0
+# dash>=2.6.0
+
+# Financial Analysis
+# quantlib>=1.28
+# yfinance>=0.2.18
+# ccxt>=2.0.0  # For other exchanges
+
+# Performance Optimization
+# numba>=0.56.0
+# cython>=0.29.0

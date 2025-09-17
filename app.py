@@ -364,10 +364,11 @@ def main():
         
         page = st.selectbox(
             "Choose a section:",
-            ["Dashboard", "Trading Performance", "AI Predictions", "Trade History", "Model Info"]
+            ["Dashboard", "Trading Performance", "AI Predictions", "Trade History", "Model Info"],
+            index=0,
+            help="Select the page you want to view"
         )
         
-        st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
         st.markdown("### About NoIQTrader")
         st.markdown("""
         - **AI Models**: Random Forest & Logistic Regression
@@ -376,7 +377,6 @@ def main():
         - **Backtesting**: 2024-2025 period
         - **Virtual Portfolio**: $10,000 starting capital
         """)
-        st.markdown('</div>', unsafe_allow_html=True)
         
         # Model status
         st.markdown("### System Status")

@@ -22,12 +22,18 @@ try:
     from src.paper_trader import BacktestEngine
     from src.model_persistence import ModelManager
     from src.ml_models import TradingSignalPredictor
+    # Add RL model import
+    from src.rl_model import RLTradingModel
 except ImportError:
     # Fallback for direct execution
     sys.path.append('src')
     from paper_trader import BacktestEngine
     from model_persistence import ModelManager
     from ml_models import TradingSignalPredictor
+    try:
+        from rl_model import RLTradingModel
+    except ImportError:
+        RLTradingModel = None
 
 
 # Page configuration
@@ -79,7 +85,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-@st.cache_data
+@st.cache_data(ttl=300)  # Cache for 5 minutes only
 def load_backtest_data():
     """Load backtest results with caching."""
     try:
@@ -95,16 +101,24 @@ def load_backtest_data():
         return None, None
 
 
-@st.cache_data
+@st.cache_data(ttl=300)  # Cache for 5 minutes only
 def load_model_info():
     """Load model information with caching."""
     try:
         manager = ModelManager()
-        predictor = manager.load_latest_models('data/btc_featured_data.csv')
-        return manager.get_model_info(), predictor
+        # Get comprehensive model info including RL models
+        all_model_info = manager.get_all_model_info('data/btc_featured_data.csv')
+        
+        # Try to load ML predictor
+        try:
+            predictor = manager.load_latest_models('data/btc_featured_data.csv')
+        except:
+            predictor = None
+        
+        return all_model_info, predictor
     except Exception as e:
         st.error(f"Error loading models: {e}")
-        return None, None
+        return {}, None
 
 
 def create_price_chart_with_trades(data, buy_dates, buy_prices, sell_dates, sell_prices):
@@ -263,8 +277,20 @@ def create_prediction_panel(model_info, predictor):
     """Create current prediction panel."""
     st.markdown("## Latest AI Prediction")
     
+    # Create tabs for different model types
+    tab1, tab2 = st.tabs(["ML Models", "RL Model"])
+    
+    with tab1:
+        create_ml_prediction_panel(model_info, predictor)
+    
+    with tab2:
+        create_rl_prediction_panel(model_info)
+
+
+def create_ml_prediction_panel(model_info, predictor):
+    """Create ML model prediction panel."""
     try:
-        # Get latest prediction
+        # Get latest prediction from best ML model
         latest_prediction = predictor.predict_next_action('random_forest')
         
         # Create prediction display
@@ -286,6 +312,7 @@ def create_prediction_panel(model_info, predictor):
                 <h2 style="color: {action_color}; margin: 0;">{action.upper()}</h2>
                 <h3 style="margin: 0.5rem 0;">Confidence: {confidence:.1%}</h3>
                 <p style="margin: 0;">Current BTC: ${latest_prediction['current_price']:,.2f}</p>
+                <p style="margin: 0; font-size: 0.9rem; color: gray;">Model: Random Forest</p>
                 <p style="margin: 0; font-size: 0.9rem; color: gray;">As of {latest_prediction['date']}</p>
             </div>
             """, unsafe_allow_html=True)
@@ -304,18 +331,123 @@ def create_prediction_panel(model_info, predictor):
             ])
             
             prob_fig.update_layout(
-                title='Action Probabilities',
+                title='ML Model Probabilities',
                 xaxis_title='Action',
                 yaxis_title='Probability',
                 template='plotly_white',
                 height=300,
                 showlegend=False
             )
-            
             st.plotly_chart(prob_fig, use_container_width=True)
             
     except Exception as e:
-        st.error(f"Error generating prediction: {e}")
+        st.error(f"Error generating ML prediction: {e}")
+
+
+def create_rl_prediction_panel(model_info):
+    """Create RL model prediction panel."""
+    rl_info = model_info.get('rl_model', {})
+    
+    if not rl_info.get('available', False):
+        st.info("RL model is not available. Train the RL model using: `python train_rl_model.py`")
+        return
+    
+    if not rl_info.get('is_trained', False):
+        st.warning("RL model is available but not trained. Run training to get predictions.")
+        return
+    
+    try:
+        # Load RL model and make prediction
+        from src.model_persistence import ModelManager
+        manager = ModelManager()
+        rl_model = manager.load_rl_model()
+        
+        if rl_model:
+            # Load recent data for prediction
+            try:
+                data = pd.read_csv('data/btc_featured_data.csv', index_col=0, parse_dates=True)
+                recent_data = data.tail(50)  # Use last 50 days
+                
+                # Get RL prediction
+                rl_prediction = rl_model.predict(recent_data, return_probabilities=True)
+                
+                # Create prediction display
+                col1, col2 = st.columns([1, 1])
+                
+                with col1:
+                    # Action recommendation
+                    action = rl_prediction['action_name']
+                    confidence = rl_prediction['confidence']
+                    
+                    action_color = {
+                        'Buy': '#00ff00',
+                        'Sell': '#ff0000', 
+                        'Hold': '#ffaa00'
+                    }.get(action, '#gray')
+                    
+                    st.markdown(f"""
+                    <div style="background-color: {action_color}22; padding: 2rem; border-radius: 10px; text-align: center; border: 2px solid {action_color};">
+                        <h2 style="color: {action_color}; margin: 0;">{action.upper()}</h2>
+                        <h3 style="margin: 0.5rem 0;">Confidence: {confidence:.1%}</h3>
+                        <p style="margin: 0;">Current BTC: ${recent_data['Close'].iloc[-1]:,.2f}</p>
+                        <p style="margin: 0; font-size: 0.9rem; color: gray;">Model: Deep Q-Network</p>
+                        <p style="margin: 0; font-size: 0.9rem; color: gray;">As of {recent_data.index[-1].strftime('%Y-%m-%d')}</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                with col2:
+                    # Q-values and probabilities
+                    if 'probabilities' in rl_prediction:
+                        probs = rl_prediction['probabilities']
+                        prob_fig = go.Figure(data=[
+                            go.Bar(
+                                x=list(probs.keys()),
+                                y=list(probs.values()),
+                                marker_color=['red', 'gray', 'green'],
+                                text=[f'{v:.1%}' for v in probs.values()],
+                                textposition='auto'
+                            )
+                        ])
+                        
+                        prob_fig.update_layout(
+                            title='RL Model Probabilities',
+                            xaxis_title='Action',
+                            yaxis_title='Probability',
+                            template='plotly_white',
+                            height=300,
+                            showlegend=False
+                        )
+                        st.plotly_chart(prob_fig, use_container_width=True)
+                    
+                    # Show Q-values
+                    st.markdown("**Q-Values:**")
+                    q_values = rl_prediction['q_values']
+                    q_df = pd.DataFrame({
+                        'Action': ['Hold', 'Buy', 'Sell'],
+                        'Q-Value': q_values
+                    })
+                    st.dataframe(q_df, use_container_width=True)
+                
+                # Show RL model performance if available
+                if 'performance' in rl_info:
+                    perf = rl_info['performance']
+                    st.markdown("**RL Model Performance:**")
+                    perf_col1, perf_col2, perf_col3 = st.columns(3)
+                    
+                    with perf_col1:
+                        st.metric("Episodes Trained", perf.get('episodes_trained', 0))
+                    with perf_col2:
+                        st.metric("Total Return", f"{perf.get('total_return', 0):.2%}")
+                    with perf_col3:
+                        st.metric("Best Portfolio", f"${perf.get('best_portfolio_value', 0):,.2f}")
+                
+            except Exception as e:
+                st.error(f"Error loading data for RL prediction: {e}")
+        else:
+            st.error("Could not load RL model")
+            
+    except Exception as e:
+        st.error(f"Error generating RL prediction: {e}")
 
 
 def create_trade_history_table(trade_history):
@@ -371,9 +503,9 @@ def main():
         
         st.markdown("### About NoIQTrader")
         st.markdown("""
-        - **AI Models**: Random Forest & Logistic Regression
+        - **AI Models**: Random Forest, Logistic Regression & RL
         - **Strategy**: Technical indicator-based signals  
-        - **Features**: 57 engineered features
+        - **Features**: 64 engineered features
         - **Backtesting**: 2024-2025 period
         - **Virtual Portfolio**: $10,000 starting capital
         """)
@@ -382,11 +514,29 @@ def main():
         st.markdown("### System Status")
         model_info, predictor = load_model_info()
         if model_info:
-            st.success("Models Loaded")
-            st.info(f"Features: {model_info.get('feature_count', 'N/A')}")
-            st.info(f"Models: {len(model_info.get('models_available', []))}")
+            st.success("✅ Models Loaded")
+            st.info(f"📊 Features: {model_info.get('feature_count', 'N/A')}")
+            
+            # Count available models
+            ml_models = len(model_info.get('models_available', []))
+            rl_available = model_info.get('rl_model', {}).get('available', False)
+            total_models = ml_models + (1 if rl_available else 0)
+            st.info(f"🤖 Models: {total_models} ({ml_models} ML + {1 if rl_available else 0} RL)")
+            
+            if rl_available:
+                rl_trained = model_info.get('rl_model', {}).get('is_trained', False)
+                st.info(f"🧠 RL Status: {'Trained' if rl_trained else 'Available'}")
         else:
-            st.error("Models Not Available")
+            st.error("❌ Models Not Available")
+        
+        # Refresh button
+        st.markdown("### Data Control")
+        if st.button("🔄 Refresh All Data", help="Clear cache and reload all data"):
+            st.cache_data.clear()
+            st.rerun()
+        
+        # Auto-refresh info
+        st.caption(f"Data cached for 5 minutes. Last loaded: {datetime.now().strftime('%H:%M:%S')}")
     
     # Load data
     results, engine = load_backtest_data()
@@ -397,7 +547,12 @@ def main():
     
     # Main content based on page selection
     if page == "Dashboard":
-        st.markdown("## Portfolio Overview")
+        # Header with timestamp
+        col_title, col_time = st.columns([3, 1])
+        with col_title:
+            st.markdown("## Portfolio Overview")
+        with col_time:
+            st.caption(f"Updated: {datetime.now().strftime('%H:%M:%S')}")
         
         # Performance metrics
         create_performance_metrics(results['performance'])

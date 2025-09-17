@@ -21,6 +21,14 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from ml_models import TradingSignalPredictor
 
+# Try to import RL model
+try:
+    from rl_model import RLTradingModel
+    RL_AVAILABLE = True
+except ImportError:
+    RL_AVAILABLE = False
+    RLTradingModel = None
+
 
 class ModelManager:
     """
@@ -184,6 +192,80 @@ class ModelManager:
         print(f" Available models: {list(loaded_models.keys())}")
         
         return self.predictor
+    
+    def load_rl_model(self):
+        """
+        Load the RL trading model if available.
+        
+        Returns:
+            RLTradingModel instance or None if not available
+        """
+        if not RL_AVAILABLE:
+            return None
+        
+        rl_model_path = os.path.join(self.models_dir, "rl_trading_model.pkl")
+        
+        if not os.path.exists(rl_model_path):
+            return None
+        
+        try:
+            rl_model = RLTradingModel()
+            rl_model.load_model(rl_model_path)
+            return rl_model
+        except Exception as e:
+            print(f"Error loading RL model: {e}")
+            return None
+    
+    def get_all_model_info(self, data_path: str = None) -> Dict[str, Any]:
+        """
+        Get information about all available models (ML and RL).
+        
+        Args:
+            data_path: Path to data file for ML models
+            
+        Returns:
+            Dictionary with information about all models
+        """
+        model_info = {
+            'ml_models': {},
+            'rl_model': None,
+            'models_available': [],
+            'feature_count': 0,
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        # Try to load ML models
+        try:
+            predictor = self.load_latest_models(data_path)
+            if predictor and hasattr(predictor, 'models'):
+                model_info['ml_models'] = {
+                    'available': list(predictor.models.keys()),
+                    'feature_count': len(predictor.feature_names) if hasattr(predictor, 'feature_names') else 0
+                }
+                model_info['models_available'].extend(predictor.models.keys())
+                model_info['feature_count'] = len(predictor.feature_names) if hasattr(predictor, 'feature_names') else 0
+        except Exception as e:
+            print(f"Could not load ML models: {e}")
+        
+        # Try to load RL model
+        rl_model = self.load_rl_model()
+        if rl_model:
+            rl_info = rl_model.get_model_info()
+            model_info['rl_model'] = {
+                'available': True,
+                'model_type': rl_info.get('model_type', 'RL_DQN'),
+                'is_trained': rl_info.get('is_trained', False),
+                'parameters': rl_info.get('parameters', {})
+            }
+            
+            if 'latest_performance' in rl_info:
+                model_info['rl_model']['performance'] = rl_info['latest_performance']
+            
+            model_info['models_available'].append('rl_dqn')
+        else:
+            model_info['rl_model'] = {'available': False}
+        
+        return model_info
     
     def predict_with_model(self, model_name: str, features: np.ndarray) -> Dict:
         """

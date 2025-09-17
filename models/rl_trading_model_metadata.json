@@ -1,0 +1,29 @@
+{
+  "model_type": "DQN_RL",
+  "version": "1.0",
+  "created_at": "2025-09-17T22:48:05.738032",
+  "parameters": {
+    "lookback_window": 20,
+    "initial_balance": 10000.0,
+    "transaction_cost": 0.001,
+    "learning_rate": 0.001,
+    "gamma": 0.95,
+    "epsilon_decay": 0.995
+  },
+  "training_history": [
+    {
+      "episodes_trained": 21,
+      "avg_reward": -0.12202884288120341,
+      "best_portfolio_value": 38590.42813102768,
+      "final_portfolio_value": 11678.545901033101,
+      "total_return": 0.16785459010331014,
+      "agent_stats": {
+        "training_steps": 29893,
+        "epsilon": 0.00998645168764533,
+        "avg_loss": 7.177450399958458e+65,
+        "memory_size": 10000
+      }
+    }
+  ],
+  "is_trained": true
+}

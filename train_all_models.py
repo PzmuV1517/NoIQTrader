@@ -31,25 +31,25 @@ class TrainingQueue:
         job_config['status'] = 'queued'
         job_config['created_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.queue.append(job_config)
-        print(f"✅ Added job #{job_config['id']}: {job_config['model_type']} to queue")
+        print(f" Added job #{job_config['id']}: {job_config['model_type']} to queue")
     
     def remove_job(self, job_id: int):
         """Remove a job from the queue"""
         self.queue = [job for job in self.queue if job['id'] != job_id]
-        print(f"🗑️  Removed job #{job_id} from queue")
+        print(f"  Removed job #{job_id} from queue")
     
     def clear_queue(self):
         """Clear all jobs from the queue"""
         self.queue.clear()
-        print("🧹 Queue cleared")
+        print(" Queue cleared")
     
     def show_queue(self):
         """Display current queue"""
         if not self.queue:
-            print("📋 Queue is empty")
+            print(" Queue is empty")
             return
         
-        print("\n📋 Current Training Queue:")
+        print("\n Current Training Queue:")
         print("=" * 80)
         for i, job in enumerate(self.queue):
             print(f"#{job['id']} | {job['model_type']} | Status: {job['status']}")
@@ -179,22 +179,22 @@ class TrainingMenu:
     def show_main_menu(self):
         """Display the main menu"""
         print("\n" + "="*60)
-        print("🧠 NoIQTrader - Interactive Model Training Menu")
+        print(" NoIQTrader - Interactive Model Training Menu")
         print("="*60)
-        print("1. 🤖 Configure ML Model Training")
-        print("2. 🧠 Configure RL Model Training") 
-        print("3. 📋 View Training Queue")
-        print("4. 🗑️  Manage Queue (Remove/Clear)")
-        print("5. 🚀 Start Training Queue")
-        print("6. 📊 View Previous Training Results")
-        print("7. ⚙️  Advanced Configuration")
-        print("8. 🔄 Refresh Data Files")
-        print("9. ❌ Exit")
+        print("1. Configure ML Model Training")
+        print("2. Configure RL Model Training") 
+        print("3. View Training Queue")
+        print("4.  Manage Queue (Remove/Clear)")
+        print("5. Start Training Queue")
+        print("6. View Previous Training Results")
+        print("7.  Advanced Configuration")
+        print("8. Refresh Data Files")
+        print("9. Exit")
         print("="*60)
     
     def configure_ml_training(self):
         """Configure ML model training parameters"""
-        print("\n🤖 ML Model Training Configuration")
+        print("\n ML Model Training Configuration")
         print("-" * 40)
         
         # Select models to train
@@ -215,7 +215,7 @@ class TrainingMenu:
                 models = ['logistic_regression', 'random_forest']
                 break
             else:
-                print("❌ Invalid choice. Please enter 1, 2, or 3.")
+                print(" Invalid choice. Please enter 1, 2, or 3.")
         
         # Additional configuration
         print(f"\nSelected models: {', '.join([m.replace('_', ' ').title() for m in models])}")
@@ -231,11 +231,11 @@ class TrainingMenu:
         # Add to queue
         self.queue.add_job(job_config)
         
-        input("\n✅ ML training job configured. Press Enter to continue...")
+        input("\n ML training job configured. Press Enter to continue...")
     
     def configure_rl_training(self):
         """Configure RL model training parameters"""
-        print("\n🧠 RL Model Training Configuration")
+        print("\n RL Model Training Configuration")
         print("-" * 40)
         
         # Episodes configuration
@@ -271,12 +271,12 @@ class TrainingMenu:
                         if episodes > 0:
                             break
                         else:
-                            print("❌ Episodes must be positive")
+                            print(" Episodes must be positive")
                     except ValueError:
-                        print("❌ Please enter a valid number")
+                        print(" Please enter a valid number")
                 break
             else:
-                print("❌ Invalid choice. Please enter 1-6.")
+                print(" Invalid choice. Please enter 1-6.")
         
         # Learning rate
         print(f"\nSelected episodes: {episodes}")
@@ -304,12 +304,12 @@ class TrainingMenu:
                         if 0 < learning_rate < 1:
                             break
                         else:
-                            print("❌ Learning rate should be between 0 and 1")
+                            print(" Learning rate should be between 0 and 1")
                     except ValueError:
-                        print("❌ Please enter a valid number")
+                        print(" Please enter a valid number")
                 break
             else:
-                print("❌ Invalid choice. Please enter 1-4.")
+                print(" Invalid choice. Please enter 1-4.")
         
         # Initial balance
         print(f"\nLearning rate: {learning_rate}")
@@ -319,9 +319,9 @@ class TrainingMenu:
                 if initial_balance > 0:
                     break
                 else:
-                    print("❌ Initial balance must be positive")
+                    print(" Initial balance must be positive")
             except ValueError:
-                print("❌ Please enter a valid number")
+                print(" Please enter a valid number")
         
         # Transaction cost
         print(f"Initial balance: ${initial_balance:,.2f}")
@@ -331,9 +331,9 @@ class TrainingMenu:
                 if 0 <= transaction_cost <= 0.1:
                     break
                 else:
-                    print("❌ Transaction cost should be between 0 and 10%")
+                    print(" Transaction cost should be between 0 and 10%")
             except ValueError:
-                print("❌ Please enter a valid number")
+                print(" Please enter a valid number")
         
         # Early stopping
         print(f"Transaction cost: {transaction_cost*100:.1f}%")
@@ -353,12 +353,12 @@ class TrainingMenu:
         # Add to queue
         self.queue.add_job(job_config)
         
-        input("\n✅ RL training job configured. Press Enter to continue...")
+        input("\n RL training job configured. Press Enter to continue...")
     
     def manage_queue(self):
         """Manage training queue"""
         while True:
-            print("\n🗑️  Queue Management")
+            print("\n  Queue Management")
             print("-" * 30)
             self.queue.show_queue()
             
@@ -377,24 +377,24 @@ class TrainingMenu:
                     job_id = int(input("Enter job ID to remove: "))
                     self.queue.remove_job(job_id)
                 except ValueError:
-                    print("❌ Please enter a valid job ID")
+                    print(" Please enter a valid job ID")
             elif choice == '2':
-                confirm = input("⚠️  Clear entire queue? (y/N): ").strip().lower()
+                confirm = input("  Clear entire queue? (y/N): ").strip().lower()
                 if confirm == 'y':
                     self.queue.clear_queue()
             elif choice == '3':
                 return
             else:
-                print("❌ Invalid choice")
+                print(" Invalid choice")
     
     def start_training(self):
         """Execute all jobs in the training queue"""
         if not self.queue.queue:
-            print("📋 Queue is empty. Add some training jobs first!")
+            print(" Queue is empty. Add some training jobs first!")
             input("Press Enter to continue...")
             return
         
-        print("\n🚀 Starting Training Queue")
+        print("\n Starting Training Queue")
         print("=" * 50)
         
         # Show queue summary
@@ -411,9 +411,9 @@ class TrainingMenu:
         estimated_time = (ml_jobs * 5) + (total_episodes * 0.05)  # Rough estimate
         print(f"Estimated time: ~{estimated_time:.0f} minutes")
         
-        confirm = input(f"\n⚠️  Start training {total_jobs} jobs? (y/N): ").strip().lower()
+        confirm = input(f"\n  Start training {total_jobs} jobs? (y/N): ").strip().lower()
         if confirm != 'y':
-            print("❌ Training cancelled")
+            print(" Training cancelled")
             return
         
         # Execute jobs
@@ -422,7 +422,7 @@ class TrainingMenu:
         
         for i, job in enumerate(self.queue.queue):
             print(f"\n{'='*60}")
-            print(f"🔄 Executing Job #{job['id']} ({i+1}/{total_jobs})")
+            print(f" Executing Job #{job['id']} ({i+1}/{total_jobs})")
             print(f"Model Type: {job['model_type']}")
             print(f"{'='*60}")
             
@@ -440,16 +440,16 @@ class TrainingMenu:
                 if success:
                     job['status'] = 'completed'
                     successful_jobs += 1
-                    print(f"✅ Job #{job['id']} completed successfully")
+                    print(f" Job #{job['id']} completed successfully")
                 else:
                     job['status'] = 'failed'
-                    print(f"❌ Job #{job['id']} failed")
+                    print(f" Job #{job['id']} failed")
                 
             except Exception as e:
                 job['status'] = 'failed'
                 job['error'] = str(e)
                 logger.error(f"Job #{job['id']} failed with error: {e}")
-                print(f"❌ Job #{job['id']} failed with error: {e}")
+                print(f" Job #{job['id']} failed with error: {e}")
             
             job['completed_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             self.queue.completed_jobs.append(job)
@@ -462,7 +462,7 @@ class TrainingMenu:
         duration = end_time - start_time
         
         print(f"\n{'='*60}")
-        print("🏁 Training Queue Completed!")
+        print(" Training Queue Completed!")
         print(f"{'='*60}")
         print(f"Total jobs: {total_jobs}")
         print(f"Successful: {successful_jobs}")
@@ -471,16 +471,16 @@ class TrainingMenu:
         print(f"{'='*60}")
         
         if successful_jobs == total_jobs:
-            print("🎉 All models trained successfully!")
-            print("💡 You can now run: streamlit run app.py")
+            print(" All models trained successfully!")
+            print(" You can now run: streamlit run app.py")
         else:
-            print("⚠️  Some training jobs failed. Check logs above.")
+            print("  Some training jobs failed. Check logs above.")
         
         input("\nPress Enter to continue...")
     
     def view_results(self):
         """View previous training results"""
-        print("\n📊 Previous Training Results")
+        print("\n Previous Training Results")
         print("-" * 40)
         
         if not self.queue.completed_jobs:
@@ -501,13 +501,13 @@ class TrainingMenu:
     
     def advanced_config(self):
         """Advanced configuration options"""
-        print("\n⚙️  Advanced Configuration")
+        print("\n  Advanced Configuration")
         print("-" * 30)
-        print("1. 📁 Check data files")
-        print("2. 🔧 View system info")
-        print("3. 📋 Export queue configuration")
-        print("4. 📥 Import queue configuration")
-        print("5. 🧹 Clean model cache")
+        print("1. Check data files")
+        print("2. View system info")
+        print("3. Export queue configuration")
+        print("4. Import queue configuration")
+        print("5. Clean model cache")
         print("6. Return to main menu")
         
         choice = input("\nChoice (1-6): ").strip()
@@ -525,7 +525,7 @@ class TrainingMenu:
         elif choice == '6':
             return
         else:
-            print("❌ Invalid choice")
+            print(" Invalid choice")
     
     def check_data_files(self):
         """Check if required data files exist"""
@@ -534,46 +534,46 @@ class TrainingMenu:
             'data/btc_with_predictions.csv'
         ]
         
-        print("\n📁 Data File Status:")
+        print("\n Data File Status:")
         all_present = True
         
         for file_path in required_files:
             if os.path.exists(file_path):
                 size = os.path.getsize(file_path) / (1024 * 1024)  # MB
-                print(f"✅ {file_path} ({size:.1f} MB)")
+                print(f" {file_path} ({size:.1f} MB)")
             else:
-                print(f"❌ {file_path} (Missing)")
+                print(f" {file_path} (Missing)")
                 all_present = False
         
         if not all_present:
-            print("\n⚠️  Some data files are missing!")
-            print("💡 Run: python process_data.py to generate them")
+            print("\n  Some data files are missing!")
+            print(" Run: python process_data.py to generate them")
         
         input("\nPress Enter to continue...")
     
     def show_system_info(self):
         """Show system information"""
-        print("\n🔧 System Information:")
+        print("\n System Information:")
         print(f"Python version: {sys.version}")
         print(f"Working directory: {os.getcwd()}")
         
         # Check for required modules
         modules = ['pandas', 'numpy', 'sklearn', 'tensorflow', 'streamlit']
-        print("\n📦 Module Status:")
+        print("\n Module Status:")
         
         for module in modules:
             try:
                 __import__(module)
-                print(f"✅ {module}")
+                print(f" {module}")
             except ImportError:
-                print(f"❌ {module} (Not installed)")
+                print(f" {module} (Not installed)")
         
         input("\nPress Enter to continue...")
     
     def export_queue_config(self):
         """Export current queue to JSON file"""
         if not self.queue.queue:
-            print("📋 Queue is empty, nothing to export")
+            print(" Queue is empty, nothing to export")
             input("Press Enter to continue...")
             return
         
@@ -582,9 +582,9 @@ class TrainingMenu:
         try:
             with open(filename, 'w') as f:
                 json.dump(self.queue.queue, f, indent=2)
-            print(f"✅ Queue configuration exported to: {filename}")
+            print(f" Queue configuration exported to: {filename}")
         except Exception as e:
-            print(f"❌ Export failed: {e}")
+            print(f" Export failed: {e}")
         
         input("Press Enter to continue...")
     
@@ -593,7 +593,7 @@ class TrainingMenu:
         filename = input("Enter JSON filename to import: ").strip()
         
         if not os.path.exists(filename):
-            print(f"❌ File not found: {filename}")
+            print(f" File not found: {filename}")
             input("Press Enter to continue...")
             return
         
@@ -602,9 +602,9 @@ class TrainingMenu:
                 imported_queue = json.load(f)
             
             self.queue.queue.extend(imported_queue)
-            print(f"✅ Imported {len(imported_queue)} jobs from {filename}")
+            print(f" Imported {len(imported_queue)} jobs from {filename}")
         except Exception as e:
-            print(f"❌ Import failed: {e}")
+            print(f" Import failed: {e}")
         
         input("Press Enter to continue...")
     
@@ -612,7 +612,7 @@ class TrainingMenu:
         """Clean model cache and temporary files"""
         cache_dirs = ['models/__pycache__', 'src/__pycache__', '__pycache__']
         
-        confirm = input("⚠️  Clean model cache? (y/N): ").strip().lower()
+        confirm = input("  Clean model cache? (y/N): ").strip().lower()
         if confirm != 'y':
             return
         
@@ -620,32 +620,32 @@ class TrainingMenu:
             if os.path.exists(cache_dir):
                 import shutil
                 shutil.rmtree(cache_dir)
-                print(f"🧹 Cleaned: {cache_dir}")
+                print(f" Cleaned: {cache_dir}")
         
-        print("✅ Cache cleaned")
+        print(" Cache cleaned")
         input("Press Enter to continue...")
     
     def refresh_data(self):
         """Refresh data files"""
-        print("\n🔄 Refreshing Data Files")
+        print("\n Refreshing Data Files")
         print("-" * 30)
         
-        confirm = input("⚠️  This will regenerate data files. Continue? (y/N): ").strip().lower()
+        confirm = input("  This will regenerate data files. Continue? (y/N): ").strip().lower()
         if confirm != 'y':
             return
         
         try:
-            print("🔄 Running data processing...")
+            print(" Running data processing...")
             os.system("python process_data.py")
-            print("✅ Data refresh completed")
+            print(" Data refresh completed")
         except Exception as e:
-            print(f"❌ Data refresh failed: {e}")
+            print(f" Data refresh failed: {e}")
         
         input("Press Enter to continue...")
     
     def run(self):
         """Run the interactive menu"""
-        print("🚀 Welcome to NoIQTrader Interactive Training!")
+        print(" Welcome to NoIQTrader Interactive Training!")
         
         while self.running:
             try:
@@ -670,17 +670,17 @@ class TrainingMenu:
                 elif choice == '8':
                     self.refresh_data()
                 elif choice == '9':
-                    print("👋 Goodbye!")
+                    print(" Goodbye!")
                     self.running = False
                 else:
-                    print("❌ Invalid choice. Please enter 1-9.")
+                    print(" Invalid choice. Please enter 1-9.")
                     input("Press Enter to continue...")
                     
             except KeyboardInterrupt:
-                print("\n\n👋 Goodbye!")
+                print("\n\n Goodbye!")
                 self.running = False
             except Exception as e:
-                print(f"\n❌ An error occurred: {e}")
+                print(f"\n An error occurred: {e}")
                 input("Press Enter to continue...")
 
 def main():

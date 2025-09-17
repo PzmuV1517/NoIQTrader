@@ -845,24 +845,24 @@ def main():
         st.markdown("### System Status")
         model_info, predictor = load_model_info()
         if model_info:
-            st.success("✅ Models Loaded")
-            st.info(f"📊 Features: {model_info.get('feature_count', 'N/A')}")
+            st.success(" Models Loaded")
+            st.info(f" Features: {model_info.get('feature_count', 'N/A')}")
             
             # Count available models
             ml_models = len(model_info.get('models_available', []))
             rl_available = model_info.get('rl_model', {}).get('available', False)
             total_models = ml_models + (1 if rl_available else 0)
-            st.info(f"🤖 Models: {total_models} ({ml_models} ML + {1 if rl_available else 0} RL)")
+            st.info(f" Models: {total_models} ({ml_models} ML + {1 if rl_available else 0} RL)")
             
             if rl_available:
                 rl_trained = model_info.get('rl_model', {}).get('is_trained', False)
-                st.info(f"🧠 RL Status: {'Trained' if rl_trained else 'Available'}")
+                st.info(f" RL Status: {'Trained' if rl_trained else 'Available'}")
         else:
-            st.error("❌ Models Not Available")
+            st.error(" Models Not Available")
         
         # Refresh button
         st.markdown("### Data Control")
-        if st.button("🔄 Refresh All Data", help="Clear cache and reload all data"):
+        if st.button(" Refresh All Data", help="Clear cache and reload all data"):
             st.cache_data.clear()
             st.rerun()
         
@@ -891,7 +891,7 @@ def main():
         st.markdown("---")
         
         # Create tabs for different model views
-        tab1, tab2, tab3 = st.tabs(["🤖 ML Model Trades", "🧠 RL Model Trades", "📊 Model Comparison"])
+        tab1, tab2, tab3 = st.tabs([" ML Model Trades", " RL Model Trades", " Model Comparison"])
         
         with tab1:
             st.markdown("### Random Forest Model Performance")
@@ -952,7 +952,7 @@ def main():
                             st.info("Portfolio chart not available")
                 else:
                     st.warning("RL model data not available. The model may still be training.")
-                    st.info("💡 Check back after the RL training completes!")
+                    st.info(" Check back after the RL training completes!")
             except Exception as e:
                 st.error(f"Error loading RL data: {e}")
         
@@ -965,14 +965,14 @@ def main():
                     col1, col2 = st.columns(2)
                     
                     with col1:
-                        st.markdown("#### 🤖 Random Forest Model")
+                        st.markdown("#### Random Forest Model")
                         st.metric("Total Return", f"{results['performance']['total_return_pct']:.2f}%")
                         st.metric("Final Value", f"${results['performance']['final_value']:,.2f}")
                         ml_trades = results['performance']['total_trades']
                         st.metric("Total Trades", ml_trades)
                     
                     with col2:
-                        st.markdown("#### 🧠 RL Model")  
+                        st.markdown("#### RL Model")  
                         st.metric("Total Return", f"{rl_results.get('total_return', 0):.2%}")
                         st.metric("Final Value", f"${rl_results.get('final_portfolio_value', 0):,.2f}")
                         rl_trades = len(rl_results['trade_history'])
@@ -992,11 +992,11 @@ def main():
                     rl_return = rl_results.get('total_return', 0) * 100
                     
                     if ml_return > rl_return:
-                        st.success(f"🤖 Random Forest outperforms RL by {ml_return - rl_return:.2f}%")
+                        st.success(f" Random Forest outperforms RL by {ml_return - rl_return:.2f}%")
                     elif rl_return > ml_return:
-                        st.success(f"🧠 RL outperforms Random Forest by {rl_return - ml_return:.2f}%")
+                        st.success(f" RL outperforms Random Forest by {rl_return - ml_return:.2f}%")
                     else:
-                        st.info("🤝 Both models show similar performance")
+                        st.info(" Both models show similar performance")
                 else:
                     st.warning("RL comparison not available. RL model may still be training.")
             except Exception as e:
@@ -1080,7 +1080,7 @@ def main():
         st.markdown("## Trading Model Comparison")
         
         # Create tabs for different models
-        tab1, tab2 = st.tabs(["🤖 Random Forest Model", "🧠 RL Model"])
+        tab1, tab2 = st.tabs([" Random Forest Model", " RL Model"])
         
         with tab1:
             st.markdown("### Random Forest Trading History")
@@ -1128,7 +1128,7 @@ def main():
                     st.warning("RL model trade history not available. The model may still be training or not yet evaluated.")
             except Exception as e:
                 st.error(f"Error loading RL trade history: {e}")
-                st.info("💡 The RL model may still be training. Check back after training completes!")
+                st.info(" The RL model may still be training. Check back after training completes!")
     
     elif page == "Model Info":
         st.markdown("## Model Information")

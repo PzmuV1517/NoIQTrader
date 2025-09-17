@@ -1,18 +1,18 @@
 # NoIQTrader - AI-Powered Bitcoin Trading System
 
-## Phase 1: Data Collection & Feature Engineering ✅ COMPLETED
+## Phase 1: Data Collection & Feature Engineering COMPLETED
 
 An AI-powered Bitcoin trading system that uses machine learning to predict BTC price movements and simulate paper trades.
 
-### 🎯 Project Overview
+### Project Overview
 
 **Current Status**: Phase 1 Complete - Ready for ML Modeling
-- ✅ 5 years of BTC-USD historical data (1,808 trading days)
-- ✅ 64 engineered features including technical indicators
-- ✅ Clean, analysis-ready dataset
-- ✅ Comprehensive data exploration notebook
+- 5 years of BTC-USD historical data (1,808 trading days)
+- 64 engineered features including technical indicators
+- Clean, analysis-ready dataset
+- Comprehensive data exploration notebook
 
-### 📁 Project Structure
+### Project Structure
 
 ```
 NoIQTrader/
@@ -34,7 +34,7 @@ NoIQTrader/
 └── README.md                  # This file
 ```
 
-### 🔧 Features Implemented
+### Features Implemented
 
 **Data Collection**
 - Historical BTC-USD data from Yahoo Finance (2020-2025)
@@ -60,7 +60,7 @@ NoIQTrader/
 - Comprehensive missing value handling
 - Data validation and integrity checks
 
-### 🚀 Quick Start
+### Quick Start
 
 1. **Setup Environment**:
 ```bash
@@ -91,7 +91,7 @@ source venv/bin/activate
 jupyter notebook notebooks/btc_analysis.ipynb
 ```
 
-### 📊 Current Dataset Stats
+### Current Dataset Stats
 
 - **Time Period**: September 2020 - September 2025 (5 years)
 - **Data Points**: 1,808 trading days
@@ -100,7 +100,7 @@ jupyter notebook notebooks/btc_analysis.ipynb
 - **5-Year Return**: 1,005.8%
 - **Data Quality**: 99.6% complete
 
-### 🔬 Analysis Capabilities
+### Analysis Capabilities
 
 The Jupyter notebook provides:
 - Interactive BTC price charts with technical indicators
@@ -110,7 +110,7 @@ The Jupyter notebook provides:
 - Risk metrics and volatility analysis
 - Comprehensive data quality reports
 
-### 🛠 Technology Stack
+### Technology Stack
 
 - **Data**: yfinance, pandas, numpy
 - **Visualization**: matplotlib, plotly, seaborn
@@ -118,7 +118,7 @@ The Jupyter notebook provides:
 - **Analysis**: Jupyter notebooks
 - **ML Ready**: scikit-learn compatible format
 
-### 📈 Next Steps (Phase 2)
+### Next Steps (Phase 2)
 
 Ready for implementation:
 1. **Machine Learning Models**
@@ -136,7 +136,7 @@ Ready for implementation:
    - Interactive trading dashboard
    - Model performance visualization
 
-### 🤝 Contributing
+### Contributing
 
 This project is designed to be modular and extensible. Feel free to:
 - Add new technical indicators
@@ -144,6 +144,6 @@ This project is designed to be modular and extensible. Feel free to:
 - Enhance visualization capabilities
 - Extend to other cryptocurrencies
 
-### 📜 License
+### License
 
 MIT License - Feel free to use and modify for your trading analysis needs.

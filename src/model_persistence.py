@@ -45,7 +45,7 @@ class ModelManager:
         """Create models directory if it doesn't exist."""
         if not os.path.exists(self.models_dir):
             os.makedirs(self.models_dir)
-            print(f"📁 Created models directory: {self.models_dir}")
+            print(f" Created models directory: {self.models_dir}")
     
     def save_models(self, predictor: TradingSignalPredictor) -> Dict[str, str]:
         """
@@ -63,7 +63,7 @@ class ModelManager:
         saved_files = {}
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         
-        print("💾 Saving trained models...")
+        print(" Saving trained models...")
         
         # Save individual models
         for model_name, model_info in predictor.models.items():
@@ -82,7 +82,7 @@ class ModelManager:
                 }, f)
             
             saved_files[model_name] = model_path
-            print(f"  ✅ Saved {model_name} to {model_path}")
+            print(f"  Saved {model_name} to {model_path}")
         
         # Save predictor metadata
         metadata = {
@@ -112,16 +112,16 @@ class ModelManager:
                 latest_path = os.path.join(latest_dir, f"{model_name}.pkl")
                 import shutil
                 shutil.copy2(model_path, latest_path)
-                print(f"  📋 Copied {model_name} to latest/")
+                print(f"  Copied {model_name} to latest/")
         
         # Copy metadata to latest
         latest_metadata_path = os.path.join(latest_dir, "model_metadata.json")
         import shutil
         shutil.copy2(metadata_path, latest_metadata_path)
         
-        print(f"\n✅ All models saved successfully!")
-        print(f"📊 Models directory: {self.models_dir}")
-        print(f"🔄 Latest models: {latest_dir}")
+        print(f"\n All models saved successfully!")
+        print(f" Models directory: {self.models_dir}")
+        print(f" Latest models: {latest_dir}")
         
         return saved_files
     
@@ -141,7 +141,7 @@ class ModelManager:
         if not os.path.exists(metadata_path):
             raise FileNotFoundError(f"No latest models found. Please train models first.")
         
-        print("📂 Loading latest models...")
+        print(" Loading latest models...")
         
         # Load metadata
         with open(metadata_path, 'r') as f:
@@ -176,12 +176,12 @@ class ModelManager:
                         'test': np.array(model_data['predictions']['test'])
                     }
                 }
-                print(f"  ✅ Loaded {model_name}")
+                print(f"  Loaded {model_name}")
         
         self.predictor.models = loaded_models
         
-        print(f"✅ Loaded {len(loaded_models)} models successfully!")
-        print(f"📊 Available models: {list(loaded_models.keys())}")
+        print(f" Loaded {len(loaded_models)} models successfully!")
+        print(f" Available models: {list(loaded_models.keys())}")
         
         return self.predictor
     
@@ -257,14 +257,14 @@ def create_predictions_dataset(data_path: str, models_dir: str = "models",
     Returns:
         Path to the created predictions dataset
     """
-    print("🔮 Creating predictions dataset for backtesting...")
+    print(" Creating predictions dataset for backtesting...")
     
     # Load models
     manager = ModelManager(models_dir)
     try:
         predictor = manager.load_latest_models(data_path)
     except FileNotFoundError:
-        print("❌ No saved models found. Training new models...")
+        print(" No saved models found. Training new models...")
         # Train models if none exist
         predictor = TradingSignalPredictor(data_path)
         predictor.load_data()
@@ -318,7 +318,7 @@ def create_predictions_dataset(data_path: str, models_dir: str = "models",
         data_with_target['buy_prob'] = probabilities[:, 2]   # Buy probability
         data_with_target['confidence'] = np.max(probabilities, axis=1)  # Highest probability
         
-        print(f"✅ Added predictions from Random Forest model")
+        print(f" Added predictions from Random Forest model")
         
         # Print prediction distribution
         pred_counts = pd.Series(predictions).value_counts().sort_index()
@@ -331,8 +331,8 @@ def create_predictions_dataset(data_path: str, models_dir: str = "models",
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     data_with_target.to_csv(output_path)
     
-    print(f"💾 Saved predictions dataset to: {output_path}")
-    print(f"📊 Dataset shape: {data_with_target.shape}")
+    print(f" Saved predictions dataset to: {output_path}")
+    print(f" Dataset shape: {data_with_target.shape}")
     
     return output_path
 
@@ -340,7 +340,7 @@ def create_predictions_dataset(data_path: str, models_dir: str = "models",
 # Example usage
 if __name__ == "__main__":
     # Test model persistence
-    print("🧪 Testing Model Persistence System...")
+    print(" Testing Model Persistence System...")
     
     data_path = "data/btc_featured_data.csv"
     
@@ -351,11 +351,11 @@ if __name__ == "__main__":
     manager = ModelManager()
     try:
         predictor = manager.load_latest_models(data_path)
-        print(f"\n📋 Model Info:")
+        print(f"\n Model Info:")
         info = manager.get_model_info()
         for key, value in info.items():
             if not isinstance(value, list):
                 print(f"  {key}: {value}")
         
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f" Error: {e}")

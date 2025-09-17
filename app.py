@@ -33,7 +33,7 @@ except ImportError:
 # Page configuration
 st.set_page_config(
     page_title="NoIQTrader - AI Bitcoin Trading",
-    page_icon="🤖",
+    page_icon="robot",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -261,7 +261,7 @@ def create_performance_metrics(performance):
 
 def create_prediction_panel(model_info, predictor):
     """Create current prediction panel."""
-    st.markdown("## 🎯 Latest AI Prediction")
+    st.markdown("## Latest AI Prediction")
     
     try:
         # Get latest prediction
@@ -283,7 +283,7 @@ def create_prediction_panel(model_info, predictor):
             
             st.markdown(f"""
             <div style="background-color: {action_color}22; padding: 2rem; border-radius: 10px; text-align: center; border: 2px solid {action_color};">
-                <h2 style="color: {action_color}; margin: 0;">🤖 {action.upper()}</h2>
+                <h2 style="color: {action_color}; margin: 0;">{action.upper()}</h2>
                 <h3 style="margin: 0.5rem 0;">Confidence: {confidence:.1%}</h3>
                 <p style="margin: 0;">Current BTC: ${latest_prediction['current_price']:,.2f}</p>
                 <p style="margin: 0; font-size: 0.9rem; color: gray;">As of {latest_prediction['date']}</p>
@@ -355,20 +355,20 @@ def create_trade_history_table(trade_history):
 def main():
     """Main Streamlit application."""
     # Header
-    st.markdown('<h1 class="main-header">🤖 NoIQTrader</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">NoIQTrader</h1>', unsafe_allow_html=True)
     st.markdown('<p style="text-align: center; font-size: 1.2rem; color: #666;">AI-Powered Bitcoin Trading Strategy</p>', unsafe_allow_html=True)
     
     # Sidebar
     with st.sidebar:
-        st.markdown("## 📊 Navigation")
+        st.markdown("## Navigation")
         
         page = st.selectbox(
             "Choose a section:",
-            ["🏠 Dashboard", "📈 Trading Performance", "🤖 AI Predictions", "📋 Trade History", "ℹ️ Model Info"]
+            ["Dashboard", "Trading Performance", "AI Predictions", "Trade History", "Model Info"]
         )
         
         st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
-        st.markdown("### 💡 About NoIQTrader")
+        st.markdown("### About NoIQTrader")
         st.markdown("""
         - **AI Models**: Random Forest & Logistic Regression
         - **Strategy**: Technical indicator-based signals  
@@ -379,14 +379,14 @@ def main():
         st.markdown('</div>', unsafe_allow_html=True)
         
         # Model status
-        st.markdown("### 🔧 System Status")
+        st.markdown("### System Status")
         model_info, predictor = load_model_info()
         if model_info:
-            st.success("✅ Models Loaded")
-            st.info(f"🎯 Features: {model_info.get('feature_count', 'N/A')}")
-            st.info(f"🤖 Models: {len(model_info.get('models_available', []))}")
+            st.success("Models Loaded")
+            st.info(f"Features: {model_info.get('feature_count', 'N/A')}")
+            st.info(f"Models: {len(model_info.get('models_available', []))}")
         else:
-            st.error("❌ Models Not Available")
+            st.error("Models Not Available")
     
     # Load data
     results, engine = load_backtest_data()
@@ -396,8 +396,8 @@ def main():
         return
     
     # Main content based on page selection
-    if page == "🏠 Dashboard":
-        st.markdown("## 📊 Portfolio Overview")
+    if page == "Dashboard":
+        st.markdown("## Portfolio Overview")
         
         # Performance metrics
         create_performance_metrics(results['performance'])
@@ -423,8 +423,8 @@ def main():
             )
             st.plotly_chart(portfolio_fig, use_container_width=True)
     
-    elif page == "📈 Trading Performance":
-        st.markdown("## 📈 Detailed Performance Analysis")
+    elif page == "Trading Performance":
+        st.markdown("## Detailed Performance Analysis")
         
         # Performance metrics
         create_performance_metrics(results['performance'])
@@ -471,14 +471,14 @@ def main():
         )
         st.plotly_chart(drawdown_fig, use_container_width=True)
     
-    elif page == "🤖 AI Predictions":
+    elif page == "AI Predictions":
         if model_info and predictor:
             create_prediction_panel(model_info, predictor)
             
             st.markdown("---")
             
             # Model comparison
-            st.markdown("## 🏆 Model Performance Comparison")
+            st.markdown("## Model Performance Comparison")
             
             models_data = []
             for model_name in model_info.get('models_available', []):
@@ -497,8 +497,8 @@ def main():
         else:
             st.error("AI prediction models are not available.")
     
-    elif page == "📋 Trade History":
-        st.markdown("## 📋 Complete Trade History")
+    elif page == "Trade History":
+        st.markdown("## Complete Trade History")
         
         # Trade summary
         buy_count = sum(1 for trade in results['trade_history'] if trade['action'] == 'Buy')
@@ -515,15 +515,15 @@ def main():
         # Trade history table
         create_trade_history_table(results['trade_history'])
     
-    elif page == "ℹ️ Model Info":
-        st.markdown("## ℹ️ Model Information")
+    elif page == "Model Info":
+        st.markdown("## Model Information")
         
         if model_info:
             # Model overview
-            st.markdown("### 🤖 Available Models")
+            st.markdown("### Available Models")
             for model in model_info.get('models_available', []):
                 metrics = model_info.get(f'{model}_metrics', {})
-                with st.expander(f"📊 {model.replace('_', ' ').title()}"):
+                with st.expander(f"{model.replace('_', ' ').title()}"):
                     col1, col2 = st.columns(2)
                     with col1:
                         st.metric("Test Accuracy", f"{metrics.get('test_accuracy', 0):.3f}")
@@ -533,7 +533,7 @@ def main():
                         st.metric("F1 Score", f"{metrics.get('f1_score', 0):.3f}")
             
             # Feature information
-            st.markdown("### 🔧 Feature Engineering")
+            st.markdown("### Feature Engineering")
             st.info(f"Total Features: {model_info.get('feature_count', 'N/A')}")
             
             if 'features' in model_info:
@@ -559,7 +559,7 @@ def main():
     # Footer
     st.markdown("---")
     st.markdown(
-        '<p style="text-align: center; color: #888; margin-top: 2rem;">🤖 NoIQTrader - AI-Powered Bitcoin Trading | Built with Streamlit & Machine Learning</p>',
+        '<p style="text-align: center; color: #888; margin-top: 2rem;">NoIQTrader - AI-Powered Bitcoin Trading | Built with Streamlit & Machine Learning</p>',
         unsafe_allow_html=True
     )
 

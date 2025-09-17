@@ -245,11 +245,11 @@ class BacktestEngine:
         
     def load_data(self) -> pd.DataFrame:
         """Load historical data with features and predictions."""
-        print("📊 Loading historical data for backtesting...")
+        print(" Loading historical data for backtesting...")
         
         self.data = pd.read_csv(self.data_path, index_col=0, parse_dates=True)
         
-        print(f"✅ Loaded {len(self.data)} days of data")
+        print(f" Loaded {len(self.data)} days of data")
         print(f"Date range: {self.data.index[0].date()} to {self.data.index[-1].date()}")
         
         return self.data
@@ -283,7 +283,7 @@ class BacktestEngine:
         if len(test_data) == 0:
             raise ValueError("No data available for specified date range")
         
-        print(f"🚀 Running backtest from {test_data.index[0].date()} to {test_data.index[-1].date()}")
+        print(f" Running backtest from {test_data.index[0].date()} to {test_data.index[-1].date()}")
         print(f"Total days: {len(test_data)}")
         
         # Initialize portfolio
@@ -318,7 +318,7 @@ class BacktestEngine:
             'data': test_data
         }
         
-        print(f"\n✅ Backtest completed!")
+        print(f"\n Backtest completed!")
         print(f"Final Portfolio Value: ${performance['final_value']:,.2f}")
         print(f"Total Return: {performance['total_return_pct']:.2f}%")
         print(f"Max Drawdown: {performance['max_drawdown_pct']:.2f}%")
@@ -369,13 +369,13 @@ class BacktestEngine:
         with open(output_path, 'w') as f:
             json.dump(results_to_save, f, indent=2, default=str)
         
-        print(f"💾 Backtest results saved to {output_path}")
+        print(f" Backtest results saved to {output_path}")
 
 
 # Example usage and testing
 if __name__ == "__main__":
     # Test the paper trading system
-    print("🧪 Testing Paper Trading System...")
+    print(" Testing Paper Trading System...")
     
     # Load data
     data_path = "data/btc_featured_data.csv"
@@ -390,11 +390,11 @@ if __name__ == "__main__":
             start_date='2024-01-01'  # Use recent data for testing
         )
         
-        print("\n📈 Sample Trade History (last 5 trades):")
+        print("\n Sample Trade History (last 5 trades):")
         for trade in engine.portfolio.trade_history[-5:]:
             print(f"{trade['date']}: {trade['action']} at ${trade['btc_price']:,.2f} "
                   f"(Portfolio: ${trade['portfolio_value_after']:,.2f})")
         
     else:
-        print(f"❌ Data file not found at {data_path}")
+        print(f" Data file not found at {data_path}")
         print("Please run the feature engineering pipeline first.")

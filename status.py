@@ -8,7 +8,7 @@ import os
 import pandas as pd
 
 def main():
-    print("🚀 NoIQTrader - AI-Powered Bitcoin Trading System")
+    print(" NoIQTrader - AI-Powered Bitcoin Trading System")
     print("=" * 60)
     
     # Check project structure
@@ -36,31 +36,31 @@ def main():
         ]
     }
     
-    print("📁 Project Structure Status:")
+    print(" Project Structure Status:")
     for category, files in project_files.items():
         print(f"\n{category}:")
         for file in files:
-            exists = "✅" if os.path.exists(file) else "❌"
+            exists = "" if os.path.exists(file) else ""
             print(f"  {exists} {file}")
     
     # Data summary
     if os.path.exists("data/btc_featured_data.csv"):
-        print("\n📊 Dataset Summary:")
+        print("\n Dataset Summary:")
         data = pd.read_csv("data/btc_featured_data.csv", index_col=0, parse_dates=True)
-        print(f"  📈 BTC Data: {len(data):,} trading days")
-        print(f"  📅 Period: {data.index[0].date()} to {data.index[-1].date()}")
-        print(f"  🔧 Features: {len(data.columns)} total")
-        print(f"  💾 Size: {os.path.getsize('data/btc_featured_data.csv') / 1024**2:.2f} MB")
+        print(f"  BTC Data: {len(data):,} trading days")
+        print(f"  Period: {data.index[0].date()} to {data.index[-1].date()}")
+        print(f"  Features: {len(data.columns)} total")
+        print(f"  Size: {os.path.getsize('data/btc_featured_data.csv') / 1024**2:.2f} MB")
         
         # Current price info
         current_price = data['Close'].iloc[-1]
         start_price = data['Close'].iloc[0]
         total_return = ((current_price / start_price) - 1) * 100
-        print(f"  💰 Current BTC: ${current_price:,.2f}")
-        print(f"  📈 Total Return: {total_return:.1f}%")
+        print(f"  Current BTC: ${current_price:,.2f}")
+        print(f"  Total Return: {total_return:.1f}%")
     
     # Technical indicators
-    print("\n🔧 Technical Indicators Implemented:")
+    print("\n Technical Indicators Implemented:")
     indicators = [
         "Moving Averages (10, 50, 200 day)",
         "RSI (Relative Strength Index)", 
@@ -73,31 +73,31 @@ def main():
     ]
     
     for indicator in indicators:
-        print(f"  ✅ {indicator}")
+        print(f"  {indicator}")
     
     # Phase completion
-    print("\n🎯 Phase 1 Status: ✅ COMPLETED")
-    print("  ✅ Data Collection & Cleaning")
-    print("  ✅ Feature Engineering")
-    print("  ✅ Technical Indicators")
-    print("  ✅ Data Exploration Notebook")
-    print("  ✅ Project Documentation")
+    print("\n Phase 1 Status: COMPLETED")
+    print("  Data Collection & Cleaning")
+    print("  Feature Engineering")
+    print("  Technical Indicators")
+    print("  Data Exploration Notebook")
+    print("  Project Documentation")
     
     # Next steps
-    print("\n🚀 Ready for Phase 2:")
-    print("  🤖 Machine Learning Models")
+    print("\n Ready for Phase 2:")
+    print("  Machine Learning Models")
     print("     - Logistic Regression")
     print("     - Random Forest")
     print("     - LSTM/Transformer (optional)")
-    print("  📊 Paper Trading Simulation")
-    print("  🌐 Web Application (Streamlit/Dash)")
+    print("  Paper Trading Simulation")
+    print("  Web Application (Streamlit/Dash)")
     
-    print("\n▶️  To start analysis:")
+    print("\n  To start analysis:")
     print("     ./start_analysis.sh")
     print("     # or")
     print("     jupyter notebook notebooks/btc_analysis.ipynb")
     
-    print("\n🎉 Phase 1 Complete - Happy Trading! 🎉")
+    print("\n Phase 1 Complete - Happy Trading! ")
 
 if __name__ == "__main__":
     main()

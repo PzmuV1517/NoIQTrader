@@ -1,12 +1,12 @@
-# 🤖 NoIQTrader - AI-Powered Bitcoin Trading System
+# NoIQTrader - AI-Powered Bitcoin Trading System
 
-## Phase 3: Paper Trading & Web Interface ✅ COMPLETE
+## Phase 3: Paper Trading & Web Interface COMPLETE
 
 A comprehensive machine learning-powered Bitcoin trading system with interactive web interface for paper trading simulation and real-time predictions.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Launch the Web Application
 
@@ -23,9 +23,9 @@ python -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0
 
 ---
 
-## 📊 System Overview
+## System Overview
 
-### 🎯 Key Features
+### Key Features
 - **Virtual Portfolio**: $10,000 starting capital simulation
 - **AI Models**: Random Forest + Logistic Regression
 - **Real-time Predictions**: Buy/Sell/Hold signals with confidence scores
@@ -33,8 +33,8 @@ python -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0
 - **Performance Tracking**: PnL, returns, drawdown, Sharpe ratio
 - **Model Persistence**: No retraining required on app restart
 
-### 🏆 Performance Results (2024-2025 Backtest)
-- **Total Return**: +1,486.54% 🔥
+### Performance Results (2024-2025 Backtest)
+- **Total Return**: +1,486.54%
 - **Final Portfolio**: $158,654.50 (from $10,000)
 - **Max Drawdown**: 12.79%
 - **Sharpe Ratio**: 4.686
@@ -43,70 +43,70 @@ python -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 NoIQTrader/
-├── 📱 app.py                     # Streamlit web application
-├── 🚀 start_app.sh               # App startup script
-├── 📊 data/
+├── app.py                     # Streamlit web application
+├── start_app.sh               # App startup script
+├── data/
 │   ├── btc_data.csv              # Raw Bitcoin price data
 │   ├── btc_featured_data.csv     # Engineered features dataset
 │   └── btc_with_predictions.csv  # Dataset with ML predictions
-├── 🤖 models/
+├── models/
 │   └── latest/                   # Saved ML models (auto-generated)
-├── 📓 notebooks/
+├── notebooks/
 │   ├── btc_analysis.ipynb        # Phase 1: Data exploration
 │   └── ml_modeling.ipynb         # Phase 2: ML modeling
-├── 🔧 src/
+├── src/
 │   ├── data_loader.py            # Bitcoin data fetching
 │   ├── feature_engineer.py       # Technical indicator creation
 │   ├── ml_models.py              # Machine learning models
 │   ├── model_persistence.py      # Model saving/loading
 │   └── paper_trader.py           # Paper trading simulation
-└── 📋 requirements.txt           # Python dependencies
+└── requirements.txt           # Python dependencies
 ```
 
 ---
 
-## 🖥️ Web Interface Features
+## Web Interface Features
 
-### 🏠 Dashboard
+### Dashboard
 - **Portfolio Overview**: Real-time portfolio value and metrics
 - **Price Chart**: Interactive BTC price with buy/sell markers
 - **Performance Cards**: Key metrics with color-coded indicators
 
-### 📈 Trading Performance
+### Trading Performance
 - **Detailed Analytics**: Sharpe ratio, volatility, win rate
 - **Portfolio Evolution**: Value over time visualization
 - **Drawdown Analysis**: Risk assessment charts
 
-### 🤖 AI Predictions
+### AI Predictions
 - **Current Recommendation**: Latest Buy/Sell/Hold signal
 - **Confidence Score**: Model certainty percentage
 - **Probability Distribution**: Action likelihood breakdown
 - **Model Comparison**: Performance metrics across models
 
-### 📋 Trade History
+### Trade History
 - **Complete Trade Log**: All buy/sell transactions
 - **Trade Statistics**: Signal counts and distribution
 - **Color-coded Actions**: Visual trade identification
 
-### ℹ️ Model Information
+### Model Information
 - **Model Details**: Architecture and performance metrics
 - **Feature Engineering**: 57 technical indicators explained
 - **System Status**: Real-time model availability
 
 ---
 
-## 🧠 Machine Learning Pipeline
+## Machine Learning Pipeline
 
-### 📊 Data Processing
+### Data Processing
 - **5 Years Historical Data**: 2020-2025 BTC-USD from Yahoo Finance
 - **64 Features Created**: Technical indicators, volatility, lag features
 - **Target Variable**: Buy (>+1%), Sell (<-1%), Hold (otherwise)
 
-### 🤖 Models Trained
+### Models Trained
 1. **Random Forest** (Best Performer)
    - Test Accuracy: 32.9%
    - Precision: 0.31
@@ -117,7 +117,7 @@ NoIQTrader/
    - Scaled features
    - Linear decision boundary
 
-### 🎯 Trading Strategy
+### Trading Strategy
 - **Signal Generation**: ML model predictions
 - **Position Sizing**: All-in strategy (aggressive)
 - **Transaction Costs**: 0.1% fee simulation
@@ -125,9 +125,9 @@ NoIQTrader/
 
 ---
 
-## 💼 Paper Trading Results
+## Paper Trading Results
 
-### 📈 Key Performance Metrics
+### Key Performance Metrics
 | Metric | Value | Description |
 |--------|-------|-------------|
 | Initial Capital | $10,000 | Starting portfolio value |
@@ -141,29 +141,29 @@ NoIQTrader/
 
 *Estimated based on ~2.5 year backtest period
 
-### 🎯 Trading Signal Distribution
+### Trading Signal Distribution
 - **Buy Signals**: 61 (28.1% of predictions)
 - **Sell Signals**: 61 (37.1% of predictions)  
 - **Hold Signals**: 504 (34.8% of predictions)
 
 ---
 
-## 🔧 Technical Implementation
+## Technical Implementation
 
-### 🐍 Technology Stack
+### Technology Stack
 - **Backend**: Python 3.12+
 - **ML Libraries**: scikit-learn, pandas, numpy
 - **Web Framework**: Streamlit
 - **Visualization**: Plotly, matplotlib
 - **Data Source**: yfinance (Yahoo Finance API)
 
-### 🏗️ Architecture
+### Architecture
 - **Modular Design**: Separate data, modeling, and interface layers
 - **Model Persistence**: Pickle-based model saving/loading
 - **Caching**: Streamlit data caching for performance
 - **Error Handling**: Robust exception management
 
-### 📦 Dependencies
+### Dependencies
 ```
 streamlit>=1.28.0
 plotly>=5.17.0
@@ -177,7 +177,7 @@ seaborn>=0.12.0
 
 ---
 
-## 🎮 Usage Instructions
+## Usage Instructions
 
 ### 1. Starting the Application
 ```bash
@@ -203,15 +203,15 @@ cd NoIQTrader
 
 ---
 
-## ⚠️ Important Disclaimers
+## Important Disclaimers
 
-### 🔒 Risk Warning
+### Risk Warning
 - **Paper Trading Only**: This is a simulation system
 - **Not Financial Advice**: Educational and research purposes only
 - **Past Performance**: Does not guarantee future results
 - **Market Risk**: Cryptocurrency markets are highly volatile
 
-### 🧪 Model Limitations
+### Model Limitations
 - **Limited Data**: Trained on historical data only
 - **No Guarantees**: Model accuracy may vary in live markets
 - **Technical Analysis**: Based on price patterns only
@@ -219,9 +219,9 @@ cd NoIQTrader
 
 ---
 
-## 🚀 Future Enhancements
+## Future Enhancements
 
-### 📊 Potential Improvements
+### Potential Improvements
 1. **Additional Features**
    - Sentiment analysis from news/social media
    - Macroeconomic indicators
@@ -248,21 +248,21 @@ cd NoIQTrader
 
 ---
 
-## 📈 Project Phases Completed
+## Project Phases Completed
 
-### ✅ Phase 1: Data Collection & Feature Engineering
+### Phase 1: Data Collection & Feature Engineering
 - Bitcoin price data fetching
 - Technical indicator creation
 - Data exploration and visualization
 - Feature engineering pipeline
 
-### ✅ Phase 2: Machine Learning Modeling
+### Phase 2: Machine Learning Modeling
 - Target variable creation
 - Model training and evaluation
 - Performance comparison
 - Prediction system
 
-### ✅ Phase 3: Paper Trading & Web Interface
+### Phase 3: Paper Trading & Web Interface
 - Virtual portfolio simulation
 - Interactive web application
 - Real-time predictions
@@ -270,7 +270,7 @@ cd NoIQTrader
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This project is designed for educational purposes. Feel free to:
 - Experiment with different models
@@ -280,7 +280,7 @@ This project is designed for educational purposes. Feel free to:
 
 ---
 
-## 📞 Support
+## Support
 
 For questions or issues:
 1. Check the error logs in the terminal
@@ -290,6 +290,6 @@ For questions or issues:
 
 ---
 
-**🎉 Congratulations! You now have a fully functional AI-powered Bitcoin trading system with an interactive web interface!**
+**Congratulations! You now have a fully functional AI-powered Bitcoin trading system with an interactive web interface!**
 
-*Built with ❤️ using Python, Machine Learning, and Streamlit*
+*Built with love using Python, Machine Learning, and Streamlit*

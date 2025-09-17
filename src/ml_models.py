@@ -640,7 +640,7 @@ def main():
     predictor.split_data(X, y)
     
     # Train models
-    print("\n🤖 Training Models...")
+    print("\nTraining Models...")
     predictor.train_logistic_regression()
     predictor.train_random_forest()
     
@@ -649,12 +649,12 @@ def main():
         predictor.train_lstm()
     
     # Compare models
-    print("\n📊 Model Comparison:")
+    print("\nModel Comparison:")
     comparison = predictor.compare_models()
     print(comparison)
     
     # Make prediction
-    print("\n🎯 Next-Day Prediction:")
+    print("\nNext-Day Prediction:")
     best_model = comparison.iloc[0]['Model'].lower().replace(' ', '_')
     prediction = predictor.predict_next_action(best_model)
     

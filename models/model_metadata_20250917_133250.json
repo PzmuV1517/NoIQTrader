@@ -65,9 +65,9 @@
     1808,
     66
   ],
-  "saved_timestamp": "20250917_111411",
+  "saved_timestamp": "20250917_133250",
   "model_files": {
-    "logistic_regression": "models/logistic_regression_20250917_111411.pkl",
-    "random_forest": "models/random_forest_20250917_111411.pkl"
+    "logistic_regression": "models/logistic_regression_20250917_133250.pkl",
+    "random_forest": "models/random_forest_20250917_133250.pkl"
   }
 }
